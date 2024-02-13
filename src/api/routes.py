@@ -59,7 +59,7 @@ def handle_add_todos():
         db.session.commit()
         return jsonify('Added task'), 200
     
-@api.rout('/todos/<int:todo_id>', methods=['PUT','DELETE'])
+@api.route('/todos/<int:todo_id>', methods=['PUT','DELETE'])
 def handle_modify_todos(todo_id):
     current_user_id = 1
     user = User.query.get(current_user_id)
