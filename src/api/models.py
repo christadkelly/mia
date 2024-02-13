@@ -8,6 +8,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     first_name = db.Column(db.String(120), nullable=False, unique=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
+    todos = db.relationship("ToDos", backref="user" )
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -16,7 +17,8 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
-            "name": self.first_name
+            "name": self.first_name, 
+            "todos": list(map(lambda x: x.serialize(), self.todos))
         }
     
 class ToDos(db.Model):
@@ -25,7 +27,7 @@ class ToDos(db.Model):
     status = db.Column(db.String(120), nullable=False)
     task = db.Column(db.String(120), nullable=False)
     notes = db.Column(db.Text, nullable=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
         return f'<ToDos {self.task}>'
