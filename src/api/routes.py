@@ -51,7 +51,7 @@ def handle_add_todos():
     user = User.query.get(current_user_id)
 
     if user:
-        status = request.json.get('staus', None)
+        status = request.json.get('status', None)
         task = request.json.get('task', None)
         notes = request.json.get('notes', None)
         new_todo = ToDos(status = status, task = task, notes = notes, user_id = current_user_id)
@@ -63,22 +63,33 @@ def handle_add_todos():
 def handle_modify_todos(todo_id):
     current_user_id = 1
     user = User.query.get(current_user_id)
-    task_item = ToDos.query.get(todo_id)
     method = request.method
 
-    if user and task_item:
-        if method == 'PUT':
-            new_status = request.json.get('staus', None)
+    if method == 'PUT':
+        task_to_update = ToDos.query.filter_by(id = todo_id, user_id = user.id).first()
+
+        if task_to_update:
+            new_status = request.json.get('status', None)
             new_notes = request.json.get('notes', None)
             if new_status:
-                task_item.status = new_status
+                task_to_update.status = new_status
             if new_notes:
-                task_item.notes = new_notes
+                task_to_update.notes = new_notes
             db.session.commit()
-            return jsonify('Editted task'), 200
-        elif method == 'DELETE':
-            task_to_delete = ToDos.query.filter_by(id = todo_id).first()
-            if task_to_delete:
-                db.session.delete(task_to_delete)
-                db.session.commit()
-                return jsonify('Deleted task'), 200
+            todos = ToDos.query.all()
+            serialized_todos = []
+            for todo in todos:
+                serialized_todos.append(todo.serialize())
+            return jsonify({'message': 'ToDo updated', 'todos': serialized_todos})
+    
+    if method == 'DELETE':
+        task_to_delete = ToDos.query.filter_by(id = todo_id, user_id = user.id).first()
+
+        if task_to_delete:
+            db.session.delete(task_to_delete)
+            db.session.commit()
+            todos = ToDos.query.all()
+            serialized_todos = []
+            for todo in todos:
+                serialized_todos.append(todo.serialize())
+            return jsonify({'message': 'ToDo deleted', 'todos': serialized_todos})
