@@ -1,7 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			userToDos: []
+			userToDos: {}
 		},
 		actions: {
 			fetchUserToDos: async () => {
@@ -16,9 +16,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				try {
 					const resp = await fetch(`${process.env.BACKEND_URL}/api/todos`, opts);
 					const data = await resp.json();
-					console.log('fetch todos', data)
-					if (resp.status == 200) {
+					if (resp.status === 200) {
+						console.log(data)
 						setStore({userToDos: data})
+						console.log(getStore().userToDos)
+						return true;
+					} else {
+						console.error(`Unexpected error: ${data.message}`)
 					}
 				} catch (error) {
 					console.error(`There was a problem with the fetch operation ${error}`)
