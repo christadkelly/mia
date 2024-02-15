@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
+import "../../styles/todos.css";
 
 export const ToDo = () => {
     const {store, actions} = useContext(Context);
@@ -18,35 +19,39 @@ export const ToDo = () => {
 
     return(
         <div className="container">
-            <h1>to-do's</h1>
-            <ul>
-                <li>
-                    <input
-                        className="input"
-                        type="text"
-                        placeholder="What needs to be done?"
-                        value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value)}
-                        onKeyPress={(e) => createToDo(e)}>
-                    </input>
-                </li>
-                {store.userToDos && store.userToDos.length > 0 && store.userToDos.map((task, key) => 
-                    (<li key={key}>
-                        <label>{task.task}</label>
-                        <select name="status" defaultValue={task.status}>
-                            <option value='Not Started'>Not Started</option>
-                            <option value='In progress'>In progress</option>
-                            <option value='Finished'>Finished</option>
-                        </select>
-                        <button>
-                            <i className="fa-solid fa-pen-to-square"></i>
-                        </button>
-                        <button onClick={() => actions.deleteUserToDos(task.id)}>
-                            <i className="fa-solid fa-trash"></i>
-                        </button>
-                    </li>)
-                )}
-            </ul>
+            <div className="listpad">
+                <h1 >to-do's</h1>
+                <div className="list">
+                    <div>
+                        <input
+                            className="input"
+                            type="text"
+                            placeholder="What needs to be done?"
+                            value={inputValue}
+                            onChange={(e) => setInputValue(e.target.value)}
+                            onKeyPress={(e) => createToDo(e)}>
+                        </input>
+                    </div>
+                    {store.userToDos && store.userToDos.length > 0 && store.userToDos.map((task, key) => 
+                        (<div key={key} className="row pt-2">
+                            <label className="col-9">{task.task}</label>
+                            <select className="col-2" name="status" defaultValue={task.status}>
+                                <option value='Not Started'>Not Started</option>
+                                <option value='In progress'>In progress</option>
+                                <option value='Finished'>Finished</option>
+                            </select>
+                            <span className="col-1 d-flex justify-content-end">
+                                <button>
+                                    <i className="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button onClick={() => actions.deleteUserToDos(task.id)}>
+                                    <i className="fa-solid fa-trash"></i>
+                                </button>
+                            </span>
+                        </div>)
+                    )}
+                </div>
+            </div>
         </div>
     )
 }

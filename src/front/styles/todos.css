@@ -1,0 +1,53 @@
+body {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.listpad {
+    background-color: #fff;
+    position: relative;
+}
+
+.listpad,
+.listpad::before,
+.listpad::after {
+    box-shadow: 2px 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+.listpad::before,
+.listpad::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #eee;
+}
+
+.listpad::before{
+    left: 6px;
+    top: 5px;
+    z-index: -1;
+}
+
+.listpad::after{
+    left: 12px;
+    top: 10px;
+    z-index: -2;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 5rem;
+    padding-top: 1rem;
+    margin-bottom: 0px;
+}
+
+.list {
+    padding: 0rem 3rem 3rem;
+
+}
+
+input {
+    /* border: none; */
+    width: 100%;
+}
+
