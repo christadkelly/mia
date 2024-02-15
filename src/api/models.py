@@ -24,7 +24,7 @@ class User(db.Model):
 class ToDos(db.Model):
     __tablename__ = 'todos'
     id = db.Column(db.Integer, primary_key=True)
-    status = db.Column(db.String(120), nullable=False)
+    status = db.Column(db.String(120), nullable=True)
     task = db.Column(db.String(120), nullable=False)
     notes = db.Column(db.Text, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

@@ -57,7 +57,11 @@ def handle_add_todos():
         new_todo = ToDos(status = status, task = task, notes = notes, user_id = current_user_id)
         db.session.add(new_todo)
         db.session.commit()
-        return jsonify('Added task'), 200
+        todos = ToDos.query.all()
+        serialized_todos = []
+        for todo in todos:
+            serialized_todos.append(todo.serialize())
+        return jsonify({'message': 'ToDo added', 'todos': serialized_todos})
     
 @api.route('/todos/<int:todo_id>', methods=['PUT','DELETE'])
 def handle_modify_todos(todo_id):

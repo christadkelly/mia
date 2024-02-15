@@ -4,10 +4,17 @@ import { Context } from "../store/appContext";
 
 export const ToDo = () => {
     const {store, actions} = useContext(Context);
+    const [inputValue, setInputValue] = useState('');
+    const createToDo = (e) => {
+        if (e.key == "Enter" && inputValue != ''){
+            actions.addUserToDos(inputValue)
+            setInputValue('')
+        }
+    };
 
     useEffect(()=>{
         actions.fetchUserToDos()
-    }, [])
+    }, []);
 
     return(
         <div className="container">
@@ -17,20 +24,26 @@ export const ToDo = () => {
                     <input
                         className="input"
                         type="text"
-                        placeholder="What needs to be done?">
+                        placeholder="What needs to be done?"
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        onKeyPress={(e) => createToDo(e)}>
                     </input>
                 </li>
                 {store.userToDos && store.userToDos.length > 0 && store.userToDos.map((task, key) => 
                     (<li key={key}>
-                        <span className="hide">
-                            <i className="fa-solid fa-eraser"></i>
-                        </span>
                         <label>{task.task}</label>
-                        {/* <select name="status">
+                        <select name="status" defaultValue={task.status}>
                             <option value='Not Started'>Not Started</option>
                             <option value='In progress'>In progress</option>
-                            <option value='Done'>Done</option>
-                        </select> */}
+                            <option value='Finished'>Finished</option>
+                        </select>
+                        <button>
+                            <i className="fa-solid fa-pen-to-square"></i>
+                        </button>
+                        <button onClick={() => actions.deleteUserToDos(task.id)}>
+                            <i className="fa-solid fa-trash"></i>
+                        </button>
                     </li>)
                 )}
             </ul>
