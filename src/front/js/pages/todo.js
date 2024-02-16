@@ -34,16 +34,15 @@ export const ToDo = () => {
                     </div>
                     {store.userToDos && store.userToDos.length > 0 && store.userToDos.map((task, key) => 
                         (<div key={key} className="row pt-2">
-                            <label className="col-9">{task.task}</label>
-                            <select className="col-2" name="status" defaultValue={task.status}>
+                            <label className="col-8">{task.task}</label>
+                            <select className="col-3" name="status" defaultValue={task.status} 
+                            onChange={(e) => actions.editToDoStatus(task.id, e.target.value)}
+                            >
                                 <option value='Not Started'>Not Started</option>
-                                <option value='In progress'>In progress</option>
+                                <option value='In progress'>In Progress</option>
                                 <option value='Finished'>Finished</option>
                             </select>
                             <span className="col-1 d-flex justify-content-end">
-                                <button>
-                                    <i className="fa-solid fa-pen-to-square"></i>
-                                </button>
                                 <button onClick={() => actions.deleteUserToDos(task.id)}>
                                     <i className="fa-solid fa-trash"></i>
                                 </button>

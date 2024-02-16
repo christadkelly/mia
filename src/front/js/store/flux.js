@@ -78,6 +78,33 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error(`There was a problem with the fetch operation ${error}`)
 				}
 			},
+			editToDoStatus: async (todoID, status) => {
+				const opts = {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json',
+						'Access-Control-Allow-Origin': '*',
+					},
+					body: JSON.stringify({
+						'status': status
+					})
+				}
+				try {
+					const resp = await fetch(`${process.env.BACKEND_URL}/api/todos/${todoID}`, opts);
+					const data = await resp.json();
+					if (resp.status === 200) {
+						console.log(data.todos)
+						setStore({userToDos: data.todos})
+						console.log(getStore().userToDos)
+						return true;
+					} else {
+						console.error(`Unexpected error: ${data.message}`)
+					}
+				}
+				catch (error) {
+					console.error(`There was a problem with the fetch operation ${error}`)
+				}
+			}
 		}
 	};
 };
