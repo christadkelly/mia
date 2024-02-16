@@ -94,8 +94,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const data = await resp.json();
 					if (resp.status === 200) {
 						console.log(data.todos)
-						setStore({userToDos: data.todos})
-						console.log(getStore().userToDos)
+						// setStore({userToDos: data.todos})
+						// console.log(getStore().userToDos)
 						return true;
 					} else {
 						console.error(`Unexpected error: ${data.message}`)

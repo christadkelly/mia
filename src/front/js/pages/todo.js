@@ -22,9 +22,9 @@ export const ToDo = () => {
             <div className="listpad">
                 <h1 >to-do's</h1>
                 <div className="list">
-                    <div>
+                    <div className="pb-2">
                         <input
-                            className="input"
+                            className="form-control"
                             type="text"
                             placeholder="What needs to be done?"
                             value={inputValue}
@@ -34,16 +34,23 @@ export const ToDo = () => {
                     </div>
                     {store.userToDos && store.userToDos.length > 0 && store.userToDos.map((task, key) => 
                         (<div key={key} className="row pt-2">
-                            <label className="col-8">{task.task}</label>
-                            <select className="col-3" name="status" defaultValue={task.status} 
-                            onChange={(e) => actions.editToDoStatus(task.id, e.target.value)}
-                            >
-                                <option value='Not Started'>Not Started</option>
-                                <option value='In progress'>In Progress</option>
-                                <option value='Finished'>Finished</option>
-                            </select>
-                            <span className="col-1 d-flex justify-content-end">
-                                <button onClick={() => actions.deleteUserToDos(task.id)}>
+                            <div className="col-lg-8 col-md-7 col-12">
+                                <i className="fa-solid fa-thumbtack"></i>
+                                <label className="ps-2">{task.task}</label>
+                            </div>
+                            <div className="col-lg-3 col-md-4 col-10">
+                                <select className="form-select" name="status" defaultValue={task.status} 
+                                onChange={(e) => actions.editToDoStatus(task.id, e.target.value)}
+                                >
+                                    <option value='Not Started'>Not Started</option>
+                                    <option value='In progress'>In Progress</option>
+                                    <option value='Finished'>Finished</option>
+                                </select>
+                            </div>
+                            <span className="col-md-1 col-2 d-flex justify-content-end">
+                                <button 
+                                    className="btn btn-outline-dark"
+                                    onClick={() => actions.deleteUserToDos(task.id)}>
                                     <i className="fa-solid fa-trash"></i>
                                 </button>
                             </span>
