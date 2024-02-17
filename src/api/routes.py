@@ -11,16 +11,6 @@ api = Blueprint('api', __name__)
 # Allow CORS requests to this API
 CORS(api)
 
-
-@api.route('/hello', methods=['POST', 'GET'])
-def handle_hello():
-
-    response_body = {
-        "message": "Hello! I'm a message that came from the backend, check the network tab on the google inspector and you will see the GET request"
-    }
-
-    return jsonify(response_body), 200
-
 @api.route('/users', methods=["GET"])
 def handle_users():
     users=User.query.all()
@@ -28,11 +18,10 @@ def handle_users():
     for user in users:
         user = user.serialize()
         serialized_users.append(user)
-    response_body = {
+    return jsonify({
         "message": "These are all of the users",
         "users": serialized_users
-    }
-    return jsonify(response_body), 200
+    }), 200
 
 @api.route('/todos', methods=['GET'])
 def handle_get_todos():
@@ -43,7 +32,10 @@ def handle_get_todos():
         todos = []
         for x in user.todos:
             todos.append(x.serialize())
-        return jsonify(todos), 200
+        return jsonify({
+            "message": "These are all of this user's todos",
+            "todos": todos
+        }), 200
     
 @api.route('/todos', methods=['POST'])
 def handle_add_todos():
@@ -57,11 +49,13 @@ def handle_add_todos():
         new_todo = ToDos(status = status, task = task, notes = notes, user_id = current_user_id)
         db.session.add(new_todo)
         db.session.commit()
-        todos = ToDos.query.all()
-        serialized_todos = []
-        for todo in todos:
-            serialized_todos.append(todo.serialize())
-        return jsonify({'message': 'ToDo added', 'todos': serialized_todos})
+        todos = []
+        for todo in user.todos:
+            todos.append(todo.serialize())
+        return jsonify({
+            'message': 'ToDo added', 
+            'todos': todos
+        }), 200
     
 @api.route('/todos/<int:todo_id>', methods=['PUT','DELETE'])
 def handle_modify_todos(todo_id):
@@ -80,11 +74,13 @@ def handle_modify_todos(todo_id):
             if new_notes:
                 task_to_update.notes = new_notes
             db.session.commit()
-            todos = ToDos.query.all()
-            serialized_todos = []
-            for todo in todos:
-                serialized_todos.append(todo.serialize())
-            return jsonify({'message': 'ToDo updated', 'todos': serialized_todos})
+            todos = []
+            for todo in user.todos:
+                todos.append(todo.serialize())
+            return jsonify({
+                'message': 'ToDo updated', 
+                'todos': todos
+            }), 200
     
     if method == 'DELETE':
         task_to_delete = ToDos.query.filter_by(id = todo_id, user_id = user.id).first()
@@ -92,8 +88,94 @@ def handle_modify_todos(todo_id):
         if task_to_delete:
             db.session.delete(task_to_delete)
             db.session.commit()
-            todos = ToDos.query.all()
-            serialized_todos = []
-            for todo in todos:
-                serialized_todos.append(todo.serialize())
-            return jsonify({'message': 'ToDo deleted', 'todos': serialized_todos})
+            todos = []
+            for todo in user.todos:
+                todos.append(todo.serialize())
+            return jsonify({
+                'message': 'ToDo deleted', 
+                'todos': todos
+            }), 200
+
+@api.route('/contacts', methods=['GET'])
+def handle_get_contacts():
+    current_user_id = 1
+    user = User.query.get(current_user_id)
+
+    if user:
+        contacts = []
+        for contact in user.contacts:
+            contacts.append(contact.serialize())
+        return jsonify({
+            'message': 'Here are the user contacts', 
+            'contacts': contacts
+        }), 200
+    
+@api.route('/contacts', methods=['POST'])
+def handle_add_contact():
+    current_user_id = 1
+    user = User.query.get(current_user_id)
+
+    if user:
+        first_name = request.json.get('firstName', None)
+        last_name = request.json.get('lastName', None)
+        phone = request.json.get('phone', None)
+        email = request.json.get('email', None)
+        address = request.json.get('address', None)
+        new_contact = Contacts(first_name = first_name, last_name = last_name, phone = phone, email = email, address = address, user_id = current_user_id)
+        db.session.add(new_contact)
+        db.session.commit()
+        contacts = []
+        for contact in user.contacts:
+            contacts.append(contact.serialize())
+        return jsonify({
+            'message': 'Contact added', 
+            'contacts': contacts
+        }), 200
+
+@api.route('/contacts/<int:contact_id>', methods=['PUT', 'DELETE'])
+def handle_modify_contacts(contact_id):
+    current_user_id = 1
+    user = User.query.get(current_user_id)
+    method = request.method
+
+    if method == 'PUT':
+        contact_to_update = Contacts.query.filter_by(id = contact_id, user_id = user.id).first()
+
+        if contact_to_update:
+            new_first_name = request.json.get('firstName', None)
+            new_last_name = request.json.get('lastName', None)
+            new_phone = request.json.get('phone', None)
+            new_email = request.json.get('email', None)
+            new_address = request.json.get('address', None)
+            if new_first_name:
+                contact_to_update.first_name = new_first_name
+            if new_last_name:
+                contact_to_update.last_name = new_last_name
+            if new_phone:
+                contact_to_update.phone = new_phone
+            if new_email:
+                contact_to_update.email = new_email
+            if new_address:
+                contact_to_update.address = new_address
+            db.session.commit()
+            contacts = []
+            for contact in user.contacts:
+                contacts.append(contact.serialize())
+            return jsonify({
+                'message': 'Contact updated',
+                'contacts': contacts 
+            }), 200
+        
+    if method == 'DELETE':
+        contact_to_delete = Contacts.query.filter_by(id = contact_id, user_id = user.id).first()
+
+        if contact_to_delete:
+            db.session.delete(contact_to_delete)
+            db.session.commit()
+            contacts = []
+            for contact in user.contacts:
+                contacts.append(contact.serialize())
+            return jsonify({
+                'message': 'Contact deleted',
+                'contacts': contacts 
+            }), 200

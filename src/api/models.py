@@ -9,6 +9,8 @@ class User(db.Model):
     first_name = db.Column(db.String(120), nullable=False, unique=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     todos = db.relationship("ToDos", backref="user" )
+    contacts = db.relationship("Contacts", backref="user")
+    memos = db.relationship("Memos", backref = "user")
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -18,7 +20,9 @@ class User(db.Model):
             "id": self.id,
             "email": self.email,
             "name": self.first_name, 
-            "todos": list(map(lambda x: x.serialize(), self.todos))
+            "todos": list(map(lambda x: x.serialize(), self.todos)),
+            "contacts": list(map(lambda y: y.serialize(), self.contacts)),
+            "memos": list(map(lambda z: z.serialize(), self.memos))
         }
     
 class ToDos(db.Model):
@@ -44,7 +48,7 @@ class Memos(db.Model):
     __tablename__ = 'memos'
     id = db.Column(db.Integer, primary_key=True)
     memos = db.Column(db.Text, nullable=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
         return f'<Memos {self.memos}>'
@@ -56,14 +60,14 @@ class Memos(db.Model):
         }
 
 class Contacts(db.Model):
-    __tablename__ = 'Contacts'
+    __tablename__ = 'contacts'
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(120), nullable=False, unique=False)
-    last_name = db.Column(db.String(120), nullable=False, unique=False)
-    phone = db.Column(db.String(120), nullable=False)
-    email = db.Column(db.String(120), nullable=False)
+    last_name = db.Column(db.String(120), nullable=True, unique=False)
+    phone = db.Column(db.String(120), nullable=True)
+    email = db.Column(db.String(120), nullable=True)
     address = db.Column(db.Text, nullable=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
         return f'<ToDos {self.task}>'
