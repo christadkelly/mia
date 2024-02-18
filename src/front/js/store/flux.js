@@ -1,9 +1,32 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			userToDos: {}
+			userToDos: {},
+			userContacts: {},
+			userMemos: {}
 		},
 		actions: {
+			// fetchAPI: async (url, method, body, app) => {
+			// 	try{
+			// 		const response = await fetch(url, {
+			// 			method: method,
+			// 			headers: {
+			// 				'Content-Type': 'application/json',
+			// 				'Access-Control-Allow-Origin': '*'
+			// 			},
+			// 			body: body
+			// 		})
+			// 		const data = await response.json();
+			// 		if (response.status === 200 && app === "ToDos"){
+			// 			console.log(data.todos)
+			// 			setStore({userToDos: data.todos})
+			// 			console.log(getStore().userToDos)
+			// 			return true;
+			// 		}
+			// 	} catch (error) {
+			// 		console.error(`There was a problem with the fetch operation ${error}`)
+			// 	}
+			// },
 			fetchUserToDos: async () => {
 				const opts = {
 					method: 'GET',
@@ -17,8 +40,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const resp = await fetch(`${process.env.BACKEND_URL}/api/todos`, opts);
 					const data = await resp.json();
 					if (resp.status === 200) {
-						console.log(data)
-						setStore({userToDos: data})
+						console.log(data.todos)
+						setStore({userToDos: data.todos})
 						console.log(getStore().userToDos)
 						return true;
 					} else {
@@ -104,6 +127,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				catch (error) {
 					console.error(`There was a problem with the fetch operation ${error}`)
 				}
+			},
+			fetchUserContacts: async () => {
+
 			}
 		}
 	};
