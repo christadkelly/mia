@@ -8,6 +8,7 @@ import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
 import { ContactList } from "./pages/contactList";
+import { ContactForm } from "./pages/editContact";
 
 //create your first component
 const Layout = () => {
@@ -25,6 +26,7 @@ const Layout = () => {
                     <Route element={<Home />} path="/" />
                     <Route element={<ToDo />} path="/todos" />
                     <Route element={<ContactList />} path="/contacts" />
+                    <Route element={<ContactForm />} path="/contacts/new" />
                     <Route element={<h1>Not found!</h1>} />
                 </Routes>
             </BrowserRouter>

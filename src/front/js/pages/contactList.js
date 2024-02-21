@@ -12,6 +12,13 @@ export const ContactList = () => {
 
     return(
         <div className="container">
+            <div className="row">
+                <Link to='/contacts/new'>
+                    <button className="btn btn-success mt-1">
+                        Add New Contact
+                    </button>
+                </Link>
+            </div>
             {store.userContacts && store.userContacts.length > 0 && store.userContacts.map((contact, key) => {
                 return <Contact key={key} contact={contact}/>
             })}
