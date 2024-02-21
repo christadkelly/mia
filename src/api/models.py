@@ -62,8 +62,7 @@ class Memos(db.Model):
 class Contacts(db.Model):
     __tablename__ = 'contacts'
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(120), nullable=False, unique=False)
-    last_name = db.Column(db.String(120), nullable=True, unique=False)
+    name = db.Column(db.String(120), nullable=False, unique=False)
     phone = db.Column(db.String(120), nullable=True)
     email = db.Column(db.String(120), nullable=True)
     address = db.Column(db.Text, nullable=True)
@@ -75,8 +74,7 @@ class Contacts(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "first_name": self.first_name,
-            "last_name": self.last_name,
+            "name": self.name,
             "phone": self.phone,
             "email": self.email,
             "address": self.address

@@ -165,12 +165,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const app = "Contacts";
 				getActions().fetchAPI(url, method, body, app)
 			},
-			addUserContacts: async (contact) => {
+			addUserContact: async (contact) => {
 				const url = `${process.env.BACKEND_URL}/api/contacts`;
 				const method = 'POST';
 				const body = JSON.stringify({
-					'firstName': contact.firstName,
-					'lastName': contact.lastName,
+					'name': contact.name,
 					'phone': contact.phone,
 					'email': contact.email,
 					'address': contact.address
@@ -182,8 +181,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const url = `${process.env.BACKEND_URL}/api/contacts/${contactID}`;
 				const method = 'PUT';
 				const body = JSON.stringify({
-					'firstName': contact.firstName,
-					'lastName': contact.lastName,
+					'name': contact.name,
 					'phone': contact.phone,
 					'email': contact.email,
 					'address': contact.address

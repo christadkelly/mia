@@ -20,7 +20,7 @@ export const Contact = (props) => {
                 {/* <img className='img-fluid' src={imageUrl} alt='contact photo'></img> */}
             </div>
             <div className='col-9'>
-                <div className='m-1'><i class="fa-solid fa-user me-2"></i>Name: {contact.first_name} {contact.last_name}</div>
+                <div className='m-1'><i class="fa-solid fa-user me-2"></i>Name: {contact.name}</div>
                 <div className='m-1'><i class="fa-solid fa-phone me-2"></i>Phone: {contact.phone}</div>
                 <div className='m-1'><i class="fa-solid fa-envelope me-2"></i>Email: {contact.email}</div>
                 <div className='m-1'><i class="fa-solid fa-location-dot me-2"></i>Address: {contact.address}</div>

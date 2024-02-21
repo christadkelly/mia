@@ -116,12 +116,11 @@ def handle_add_contact():
     user = User.query.get(current_user_id)
 
     if user:
-        first_name = request.json.get('firstName', None)
-        last_name = request.json.get('lastName', None)
+        name = request.json.get('name', None)
         phone = request.json.get('phone', None)
         email = request.json.get('email', None)
         address = request.json.get('address', None)
-        new_contact = Contacts(first_name = first_name, last_name = last_name, phone = phone, email = email, address = address, user_id = current_user_id)
+        new_contact = Contacts(name = name, phone = phone, email = email, address = address, user_id = current_user_id)
         db.session.add(new_contact)
         db.session.commit()
         contacts = []
@@ -142,15 +141,12 @@ def handle_modify_contacts(contact_id):
         contact_to_update = Contacts.query.filter_by(id = contact_id, user_id = user.id).first()
 
         if contact_to_update:
-            new_first_name = request.json.get('firstName', None)
-            new_last_name = request.json.get('lastName', None)
+            new_name = request.json.get('name', None)
             new_phone = request.json.get('phone', None)
             new_email = request.json.get('email', None)
             new_address = request.json.get('address', None)
-            if new_first_name:
-                contact_to_update.first_name = new_first_name
-            if new_last_name:
-                contact_to_update.last_name = new_last_name
+            if new_name:
+                contact_to_update.name = new_name
             if new_phone:
                 contact_to_update.phone = new_phone
             if new_email:
