@@ -9,6 +9,7 @@ class User(db.Model):
     first_name = db.Column(db.String(120), nullable=False, unique=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     todos = db.relationship("ToDos", backref="user" )
+    contacts = db.relationship("Contacts", backref="user")
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -18,7 +19,8 @@ class User(db.Model):
             "id": self.id,
             "email": self.email,
             "name": self.first_name, 
-            "todos": list(map(lambda x: x.serialize(), self.todos))
+            "todos": list(map(lambda x: x.serialize(), self.todos)),
+            "contacts": list(map(lambda y:y.serialize(), self.contacts))
         }
     
 class ToDos(db.Model):
@@ -58,12 +60,11 @@ class Memos(db.Model):
 class Contacts(db.Model):
     __tablename__ = 'Contacts'
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(120), nullable=False, unique=False)
-    last_name = db.Column(db.String(120), nullable=False, unique=False)
-    phone = db.Column(db.String(120), nullable=False)
-    email = db.Column(db.String(120), nullable=False)
+    name = db.Column(db.String(120), nullable=False, unique=False)
+    phone = db.Column(db.String(120), nullable=True)
+    email = db.Column(db.String(120), nullable=True)
     address = db.Column(db.Text, nullable=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
         return f'<ToDos {self.task}>'
@@ -71,8 +72,7 @@ class Contacts(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "first_name": self.first_name,
-            "last_name": self.last_name,
+            "name": self.name,
             "phone": self.phone,
             "email": self.email,
             "address": self.address
