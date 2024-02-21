@@ -9,9 +9,9 @@ export const ContactForm = () => {
 
     const handleSaveContact = async() => {
         console.log(contactInfo)
-        // await actions.addUserContacts(contactInfo.name, contactInfo.email, contactInfo.phone, contactInfo.address);
-        // setContactInfo({id: '', name: '', goal: '', saved: '', date: '', notes: ''})
-        // nagivate('/contacts')
+        await actions.addUserContact(contactInfo);
+        setContactInfo({id: '', name: '', goal: '', saved: '', date: '', notes: ''})
+        nagivate('/contacts')
     }
 
     return(
@@ -61,7 +61,7 @@ export const ContactForm = () => {
                         onChange={(e) => setContactInfo({...contactInfo, address: e.target.value})}>
                     </input>
                 </div>
-                <button className="btn btn-primary" onClick={handleSaveContact}>Save Contact</button>
+                <button className="btn btn-primary" type="button" onClick={handleSaveContact}>Save Contact</button>
             </form>
         </div>
     )
