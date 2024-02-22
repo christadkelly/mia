@@ -35,7 +35,7 @@ export const Contact = (props) => {
                 <button className='btn' onClick={nagivateEdit}>
                     <i className="fa-solid fa-pencil"></i>
                 </button>
-                <button className='btn' onClick={checkDelete}>
+                <button className='btn' data-bs-target={`#modal${contact.id}`} data-bs-toggle="modal">
                     <i className="fa-regular fa-trash-can"></i>
                 </button>
             </div>
