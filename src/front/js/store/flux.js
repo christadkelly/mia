@@ -3,7 +3,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {
 			userToDos: {},
 			userContacts: {},
-			userMemos: {}
+			userMemos: {},
+			showDeleteContactModal: false,
 		},
 		actions: {
 			fetchAPI: async (url, method, body, app) => {
@@ -122,6 +123,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const app = "Contacts";
 				getActions().fetchAPI(url, method, body, app)
 			},
+			showDeleteContact: () => {
+				setStore({ showDeleteContactModal: true })
+			},
+			hideDeleteContact: () => {
+				setStore({ showDeleteContactModal: false})
+			}
 		}
 	};
 };

@@ -27,6 +27,7 @@ const Layout = () => {
                     <Route element={<ToDo />} path="/todos" />
                     <Route element={<ContactList />} path="/contacts" />
                     <Route element={<ContactForm />} path="/contacts/new" />
+                    <Route element={<ContactForm />} path="/contacts/:id" />
                     <Route element={<h1>Not found!</h1>} />
                 </Routes>
             </BrowserRouter>
