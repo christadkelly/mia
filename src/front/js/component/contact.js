@@ -10,13 +10,7 @@ export const Contact = (props) => {
     const imageUrl = 'https://cdn.icon-icons.com/icons2/1509/PNG/512/contactnew_104150.png'
 
     const nagivateEdit = () => {
-        console.log(contact.id)
         nagivate(`/contacts/${contact.id}`)
-    }
-
-    const checkDelete = () => {
-        console.log(contact.id)
-        actions.showDeleteContact(true)
     }
 
     return(

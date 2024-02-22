@@ -1,15 +1,27 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 export const ContactForm = () => {
     const { store, actions } = useContext(Context);
     const nagivate = useNavigate();
     const [contactInfo, setContactInfo] = useState({id: '', name: '', email: '', phone: '', address: ''});
+    const { id } = useParams();
+
+    useEffect (() => {
+        if(id !== undefined){
+            const listOfContacts = store.userContacts
+            const contactToEdit = listOfContacts.find(item => item.id == id)
+            setContactInfo({id: contactToEdit.id, name: contactToEdit.name, email: contactToEdit.email, phone: contactToEdit.phone, address: contactToEdit.address})
+        }
+    }, [])
 
     const handleSaveContact = async() => {
-        console.log(contactInfo)
-        await actions.addUserContact(contactInfo);
+        if(id !== undefined){
+            await actions.editUserContact(contactInfo, id);
+        } else {
+            await actions.addUserContact(contactInfo);
+        }
         setContactInfo({id: '', name: '', goal: '', saved: '', date: '', notes: ''})
         nagivate('/contacts')
     }
