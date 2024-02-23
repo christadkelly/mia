@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
+import "../../styles/contacts.css";
 
 import { Contact } from "../component/contact";
 import { DeleteModal } from "../component/deleteModal";
@@ -13,11 +14,10 @@ export const ContactList = () => {
     }, [])
 
     return(
-        <>
-        <div className="container">
+        <div className="container notebook mb-3">
             <div className="row">
                 <Link to='/contacts/new'>
-                    <button className="btn btn-success mt-1">
+                    <button className="btn btn-success mt-3">
                         Add New Contact
                     </button>
                 </Link>
@@ -29,6 +29,5 @@ export const ContactList = () => {
                 return <DeleteModal key={key} id={contact.id}/>
             })}
         </div>
-        </>
     )
 }

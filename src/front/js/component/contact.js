@@ -14,7 +14,7 @@ export const Contact = (props) => {
     }
 
     return(
-        <div className='row border border-dark rounded'>
+        <div className='row border border-dark rounded m-3'>
             <div className='col-2 d-flex justify-content-center align-items-center'>
                 <i className="fa-solid fa-address-book fa-6x"></i>
                 {/* <img className='img-fluid' src={imageUrl} alt='contact photo'></img> */}
