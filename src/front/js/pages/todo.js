@@ -33,7 +33,7 @@ export const ToDo = () => {
                         </input>
                     </div>
                     {store.userToDos && store.userToDos.length > 0 && store.userToDos.map((task, key) => 
-                        (<div key={key} className="row pt-2">
+                        (<div key={key} className="row todo pt-2">
                             <div className="col-lg-8 col-md-7 col-12">
                                 <i className="fa-solid fa-thumbtack"></i>
                                 <label className="ps-2">{task.task}</label>

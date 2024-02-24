@@ -1,0 +1,25 @@
+.notebook {
+    margin-top: 5rem;
+    position: relative;
+    background-color: #f5f5f5;
+    box-shadow: 1px -1px 5px #555;
+}
+
+.icon {
+    color: #6c757d;
+}
+
+.notebook:before{
+    position: absolute;
+    content: '';
+    top: -10px;
+    left: 0;
+    height: 20px;
+    width: 99%;
+    background-size: 18px 24px;
+    background-image: -webkit-radial-gradient(5% 40%, circle, transparent 70%, #555 20%);
+    background-image: -moz-radial-gradient(5% 40%, circle, transparent 70%, #555 20%);
+    background-image: -ms-radial-gradient(5% 40%, circle, transparent 70%, #555 20%);
+    background-image: -o-radial-gradient(5% 40%, circle, transparent 70%, #555 20%);
+    background-image: radial-gradient(circle at 5% 40%, transparent 70%, #555 20%);
+}
