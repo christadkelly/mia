@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
+import "../../styles/contacts.css";
 
 export const ContactForm = () => {
     const { store, actions } = useContext(Context);
@@ -27,7 +28,7 @@ export const ContactForm = () => {
     }
 
     return(
-        <div className="container">
+        <div className="container notebook py-3 px-4">
             <form>
                 <div className="mb-3">
                     <label className="form-label" htmlFor="name">Full Name</label>
@@ -73,7 +74,10 @@ export const ContactForm = () => {
                         onChange={(e) => setContactInfo({...contactInfo, address: e.target.value})}>
                     </input>
                 </div>
-                <button className="btn btn-primary" type="button" onClick={handleSaveContact}>Save Contact</button>
+                <div className="d-flex justify-content-center">
+                    <button className="btn btn-primary" type="button" onClick={handleSaveContact}>Save Contact</button>
+                    <button className="btn btn-secondary ms-3" type="button" onClick={() => nagivate('/contacts')}>Return to Contact List</button>
+                </div>
             </form>
         </div>
     )

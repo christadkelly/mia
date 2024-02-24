@@ -60,14 +60,14 @@ label {
     font-size: 18px;
 }
 
-.row:nth-child(3n) {
+.todo:nth-child(3n) {
     color: #a74a43;
 }
 
-.row:nth-child(3n+1) {
+.todo:nth-child(3n+1) {
     color: #23526a;
 }
 
-.row:nth-child(3n+2) {
+.todo:nth-child(3n+2) {
     color: #426344;
 }
