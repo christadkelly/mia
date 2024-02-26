@@ -175,3 +175,75 @@ def handle_modify_contacts(contact_id):
                 'message': 'Contact deleted',
                 'contacts': contacts 
             }), 200
+
+@api.route('/memos', methods=['GET'])
+def handle_get_memos():
+    current_user_id = 1
+    user = User.query.get(current_user_id)
+
+    if user:
+        memos = []
+        for memo in user.memos:
+            memos.append(memo.serialize())
+        return jsonify({
+            "message": "These are all of the user's memos",
+            "memos": memos
+        }), 200
+
+@api.route('/memos', methods=['POST'])
+def handle_add_memos():
+    current_user_id = 1
+    user = User.query.get(current_user_id)
+
+    if user:
+        title = request.json.get('title', None)
+        memo_body = request.json.get('memo_body', None)
+        new_memo = Memos(title = title, memo_body = memo_body, user_id = current_user_id)
+        db.session.add(new_memo)
+        db.session.commit()
+        memos = []
+        for memo in user.memos:
+            memos.append(memo.serialize())
+        return jsonify({
+            "message": "Memo added",
+            "memos": memos
+        }), 200
+    
+@api.route('/memos/<int:memo_id>', methods=['PUT', 'DELETE'])
+def handle_modify_memos(memo_id):
+    current_user_id = 1
+    user = User.query.get(current_user_id)
+    method = request.method
+
+    if method == 'PUT':
+        memo_to_update = Memos.query.filter_by(id = memo_id, user_id = user.id).first()
+
+        if memo_to_update:
+            new_title = request.json.get('title', None)
+            new_memo_body = request.json.get('memo_body', None)
+            if new_title:
+                memo_to_update.title = new_title
+            if new_memo_body:
+                memo_to_update.memo_body = new_memo_body
+            db.session.commit()
+            memos = []
+            for memo in user.memos:
+                memos.append(memo.serialize())
+            return jsonify({
+                "message": "Memo updated",
+                "memos": memos
+            }), 200
+        
+    if method == 'DELETE':
+        memo_to_delete = Memos.query.filter_by(id = memo_id, user_id = user.id).first()
+
+        if memo_to_delete:
+            db.session.delete(memo_to_delete)
+            db.session.commit()
+            memos = []
+            for memo in user.memos:
+                memos.append(memo.serialize())
+            return jsonify({
+                "message": "Memo deleted",
+                "memos": memos
+            }), 200

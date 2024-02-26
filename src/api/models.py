@@ -10,6 +10,7 @@ class User(db.Model):
     password = db.Column(db.String(80), unique=False, nullable=False)
     todos = db.relationship("ToDos", backref="user" )
     contacts = db.relationship("Contacts", backref="user")
+    memos = db.relationship("Memos", backref="user")
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -20,7 +21,8 @@ class User(db.Model):
             "email": self.email,
             "name": self.first_name, 
             "todos": list(map(lambda x: x.serialize(), self.todos)),
-            "contacts": list(map(lambda y:y.serialize(), self.contacts))
+            "contacts": list(map(lambda y:y.serialize(), self.contacts)),
+            "memos": list(map(lambda z:z.serialize(), self.memos))
         }
     
 class ToDos(db.Model):
@@ -45,16 +47,18 @@ class ToDos(db.Model):
 class Memos(db.Model):
     __tablename__ = 'memos'
     id = db.Column(db.Integer, primary_key=True)
-    memos = db.Column(db.Text, nullable=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    title = db.Column(db.String(120), nullable=True)
+    memo_body = db.Column(db.Text, nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
-        return f'<Memos {self.memos}>'
+        return f'<Memos {self.title}>'
 
     def serialize(self):
         return {
             "id": self.id,
-            "memos" : self.memos
+            "title": self.title,
+            "memo_body" : self.memo_body
         }
 
 class Contacts(db.Model):
