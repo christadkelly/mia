@@ -8,8 +8,8 @@ export const Memo = (props) => {
     const memo = props.memo;
 
     return(
-        <div>
-            <h6>{memo.title}</h6>
+        <div className='memo'>
+            <h5>{memo.title}</h5>
             <p>{memo.memo_body}</p>
         </div>
     )
