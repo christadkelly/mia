@@ -16,8 +16,8 @@ export const Contact = (props) => {
     return(
         <div className='row border border-dark rounded m-3 py-1'>
             <div className='col-md-2 d-flex justify-content-center align-items-center'>
-                <div className='d-none d-sm-none d-md-block'>
-                    <i className="fa-solid fa-address-book fa-6x icon"></i>
+                <div className='d-none d-sm-none d-md-blocfa-6x iconk'>
+                    <i className="fa-solid fa-address-book "></i>
                     {/* <img className='img-fluid' src={imageUrl} alt='contact photo'></img> */}
                 </div>
             </div>

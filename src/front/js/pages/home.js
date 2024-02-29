@@ -13,6 +13,7 @@ export const Home = () => {
 			<div>
 				<button className="btn btn-primary" type="button" onClick={() => nagivate('/contacts')}>Go to Contacts</button>
 				<button className="btn btn-primary" type="button" onClick={() => nagivate('/todos')}>Go to ToDo List</button>
+				<button className="btn btn-primary" type="button" onClick={() => nagivate('/memos')}>Go to Memos</button>
 			</div>
 			<p>
 				This boilerplate comes with lots of documentation:{" "}

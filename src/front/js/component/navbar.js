@@ -21,6 +21,10 @@ export const Navbar = () => {
 							<i className="fa-solid fa-thumbtack"></i>
 							<Link className="nav-link ms-2" to={"/todos"}>To-Do List</Link>
 						</li>
+						<li className="nav-item d-flex">
+							<i className="fa-solid fa-thumbtack"></i>
+							<Link className="nav-link ms-2" to={"/memos"}>Memos</Link>
+						</li>
 						<li className="nav-item dropdown d-flex">
 							<i className="fa-solid fa-thumbtack"></i>
     	    				<a className="nav-link dropdown-toggle ms-2" role="button" data-bs-toggle="dropdown" aria-expanded="false">

@@ -25,6 +25,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 						setStore({userContacts: data.contacts})
 						return true;
 					};
+					if (response.status === 200 && app === "Memos"){
+						setStore({userMemos: data.memos})
+						return true;
+					};
 				} catch (error) {
 					console.error(`There was a problem with the fetch operation ${error}`)
 				}
@@ -114,6 +118,40 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const method = 'DELETE';
 				const body = undefined;
 				const app = "Contacts";
+				getActions().fetchAPI(url, method, body, app)
+			},
+			fetchUserMemos: async () => {
+				const url = `${process.env.BACKEND_URL}/api/memos`;
+				const method = 'GET';
+				const body = undefined;
+				const app = "Memos";
+				getActions().fetchAPI(url, method, body, app)
+			},
+			addUserMemo: async (memo) => {
+				const url = `${process.env.BACKEND_URL}/api/memos`;
+				const method = 'POST';
+				const body = JSON.stringify({
+					'title': memo.title,
+					'memo_body': memo.body
+				});
+				const app = "Memos";
+				getActions().fetchAPI(url, method, body, app)
+			},
+			editUserMemo: async (memo) => {
+				const url = `${process.env.BACKEND_URL}/api/memos/${memo.id}`;
+				const method = 'PUT';
+				const body = JSON.stringify({
+					'title': memo.title,
+					'memo_body': memo.body
+				});
+				const app = "Memos";
+				getActions().fetchAPI(url, method, body, app)
+			},
+			deleteUserMemo: async (memoID) => {
+				const url = `${process.env.BACKEND_URL}/api/memos/${memoID}`;
+				const method = 'PUT';
+				const body = undefined;
+				const app = "Memos";
 				getActions().fetchAPI(url, method, body, app)
 			},
 		}
