@@ -7,29 +7,28 @@ import "../../styles/memos.css";
 export const MemoList = () => {
     const { store, actions } = useContext(Context);
     const [memoInfo, setMemoInfo] = useState({title: '', body: ''});
-
-    const createMemo = async() => {
-        console.log(memoInfo)
-        actions.addUserMemo(memoInfo);
-        setMemoInfo({title: '', body: ''})
-    }
-
+    
     useEffect(()=>{
         actions.fetchUserMemos()
     }, [])
 
-    let newMemo = {title: "Add a new memo", body: undefined}
-
-    console.log(store.userMemos)
+    const createMemo = async() => {
+        actions.addUserMemo(memoInfo);
+        setMemoInfo({title: '', body: ''})
+    }
+    // const [display, setDisplay] = useState('notdisplayed');
+    // const showButton = e => {
+    //     e.preventDefault();
+    //     setDisplay('displayed')
+    // };
+    // const hideButton = e => {
+    //     e.preventDefault();
+    //     setDisplay('notdisplayed')
+    // }
 
     return(
         <div className="container">
             <div className="d-flex flex-wrap justify-content-center">
-                {store.userMemos && store.userMemos.length > 0 && store.userMemos.map((memo, key) => {
-                    return <Memo key={key} memo={memo}/>
-                })}
-            </div>
-            <div className="d-flex justify-content-between align-items-center mt-5">
                 <div className="memo">
                     <input
                         className="form-control"
@@ -50,9 +49,12 @@ export const MemoList = () => {
                         <button className="btn" onClick={createMemo}>Create Memo</button>
                     </div>
                 </div>
-                <div>
-                    <i className="fa-solid fa-trash fa-6x icon"></i>
-                </div>
+                {store.userMemos && store.userMemos.length > 0 && store.userMemos.map((memo, key) => {
+                    return <Memo key={key} memo={memo} />
+                })}
+            </div>
+            <div className="d-flex justify-content-center mt-5">
+                <i className="fa-solid fa-trash fa-6x icon"></i>
             </div>
         </div>
     )
