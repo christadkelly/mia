@@ -11,8 +11,13 @@ export const Memo = (props) => {
     const [selectedMemo, setSelectedMemo] = useState({id: memo.id, title: memo.title, body: memo.memo_body});
 
     const editMemo = () => {
-        setEditing(true);
         console.log(selectedMemo)
+        setEditing(true);
+    }
+    const saveMemo = async() => {
+        console.log(selectedMemo)
+        actions.editUserMemo(selectedMemo);
+        setEditing(false);
     }
 
     return(
@@ -33,17 +38,25 @@ export const Memo = (props) => {
                 </div>
                 <div className='col d-flex justify-content-end'>
                     {editing ? 
-                    <button className='btn' onClick={editMemo}>
+                    <button className='btn' onClick={saveMemo}>
                         <i className="fa-solid fa-floppy-disk"></i>
                     </button> :
                     <button className='btn' onClick={editMemo}>
                         <i className="fa-solid fa-pencil icon"></i>
                     </button>}
-                    
                     {/* <i className="fa-solid fa-trash icon"></i> */}
                 </div>
             </div>
-            <p>{memo.memo_body}</p>
+            {editing ?
+            <textarea
+                className="form-control mt-1"
+                rows="4"
+                type="text"
+                placeholder="Add details to your memo"
+                value={selectedMemo.body}
+                onChange={(e) => setSelectedMemo({...selectedMemo, body: e.target.value})}>
+            </textarea> :
+            <p>{memo.memo_body}</p>}
         </div>
     )
 }

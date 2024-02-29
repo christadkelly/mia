@@ -49,8 +49,8 @@ export const MemoList = () => {
                         <button className="btn" onClick={createMemo}>Create Memo</button>
                     </div>
                 </div>
-                {store.userMemos && store.userMemos.length > 0 && store.userMemos.map((memo, key) => {
-                    return <Memo key={key} memo={memo} />
+                {store.userMemos && store.userMemos.length > 0 && store.userMemos.map((memo) => {
+                    return <Memo key={memo.id} memo={memo} />
                 })}
             </div>
             <div className="d-flex justify-content-center mt-5">

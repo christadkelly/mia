@@ -137,8 +137,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const app = "Memos";
 				getActions().fetchAPI(url, method, body, app)
 			},
-			editUserMemo: async (memo, memoID) => {
-				const url = `${process.env.BACKEND_URL}/api/memos/${memoID}`;
+			editUserMemo: async (memo) => {
+				const url = `${process.env.BACKEND_URL}/api/memos/${memo.id}`;
 				const method = 'PUT';
 				const body = JSON.stringify({
 					'title': memo.title,
