@@ -26,7 +26,7 @@ export const Memo = (props) => {
         // onMouseLeave={}
         >
             <div className='row'>
-                <div className='col'>
+                <div className='col-7'>
                     { editing ? 
                     <input 
                         className='form-control'
@@ -36,7 +36,7 @@ export const Memo = (props) => {
                         ></input> : 
                     <h5>{memo.title}</h5>}
                 </div>
-                <div className='col d-flex justify-content-end'>
+                <div className='col-5 d-flex'>
                     {editing ? 
                     <button className='btn' onClick={saveMemo}>
                         <i className="fa-solid fa-floppy-disk"></i>
@@ -44,7 +44,9 @@ export const Memo = (props) => {
                     <button className='btn' onClick={editMemo}>
                         <i className="fa-solid fa-pencil icon"></i>
                     </button>}
-                    {/* <i className="fa-solid fa-trash icon"></i> */}
+                    <button className='btn' onClick={() => actions.deleteUserMemo(memo.id)}>
+                        <i className="fa-solid fa-trash icon"></i>
+                    </button>
                 </div>
             </div>
             {editing ?
