@@ -149,7 +149,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			deleteUserMemo: async (memoID) => {
 				const url = `${process.env.BACKEND_URL}/api/memos/${memoID}`;
-				const method = 'PUT';
+				const method = 'DELETE';
 				const body = undefined;
 				const app = "Memos";
 				getActions().fetchAPI(url, method, body, app)
