@@ -27,9 +27,9 @@ export const MemoList = () => {
     // }
 
     return(
-        <div className="container">
-            <div className="d-flex flex-wrap justify-content-center">
-                <div className="memo">
+        <div className="container-fluid">
+            <div className="d-flex flex-wrap justify-content-center mt-3">
+                <div className="memo col-lg-3 col-md-4 col-sm-6 col-12 m-1 p-1">
                     <input
                         className="form-control"
                         type="text"

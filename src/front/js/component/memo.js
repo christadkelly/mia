@@ -21,7 +21,7 @@ export const Memo = (props) => {
     }
 
     return(
-        <div className='memo' 
+        <div className='memo col-lg-3 col-md-4 col-sm-6 col-12 m-1 p-1' 
         // onMouseEnter={}
         // onMouseLeave={}
         >
@@ -34,9 +34,9 @@ export const Memo = (props) => {
                         value={selectedMemo.title}
                         onChange={(e) => setSelectedMemo({...selectedMemo, title: e.target.value})}
                         ></input> : 
-                    <h5>{memo.title}</h5>}
+                    <h5 className='m-1'>{memo.title}</h5>}
                 </div>
-                <div className='col-5 d-flex'>
+                <div className='col-5 d-flex justify-content-end'>
                     {editing ? 
                     <button className='btn' onClick={saveMemo}>
                         <i className="fa-solid fa-floppy-disk"></i>
@@ -58,7 +58,7 @@ export const Memo = (props) => {
                 value={selectedMemo.body}
                 onChange={(e) => setSelectedMemo({...selectedMemo, body: e.target.value})}>
             </textarea> :
-            <p>{memo.memo_body}</p>}
+            <p className='m-1'>{memo.memo_body}</p>}
         </div>
     )
 }
