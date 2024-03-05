@@ -10,6 +10,8 @@ import { Navbar } from "./component/navbar";
 import { ContactList } from "./pages/contactList";
 import { ContactForm } from "./pages/editContact";
 import { MemoList } from "./pages/memoList";
+import { SignUp } from "./pages/signup";
+import { LogIn } from "./pages/login";
 
 //create your first component
 const Layout = () => {
@@ -30,6 +32,8 @@ const Layout = () => {
                     <Route element={<ContactForm />} path="/contacts/new" />
                     <Route element={<ContactForm />} path="/contacts/:id" />
                     <Route element={<MemoList />} path="/memos" />
+                    <Route element={<SignUp />} path="/signup" />
+                    <Route element={<LogIn />} path="/login" />
                     <Route element={<h1>Not found!</h1>} />
                 </Routes>
             </BrowserRouter>
