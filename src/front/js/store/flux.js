@@ -154,6 +154,27 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const app = "Memos";
 				getActions().fetchAPI(url, method, body, app)
 			},
+			createUser: async (user) => {
+				const url = `${process.env.BACKEND_URL}/api/user/new`;
+				const method = 'POST';
+				const body = JSON.stringify({
+					'name': user.name,
+					'email': user.email,
+					'password': user.password
+				});
+				const app = undefined;
+				getActions().fetchAPI(url, method, body, app)
+			},
+			userSignIn: async (user) => {
+				const url = `${process.env.BACKEND_URL}/api/user`;
+				const method = 'GET';
+				const body = JSON.stringify({
+					'username': user.username,
+					'password': user.password
+				});
+				const app = undefined;
+				getActions().fetchAPI(url, method, body, app)
+			}
 		}
 	};
 };

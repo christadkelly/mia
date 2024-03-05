@@ -247,3 +247,29 @@ def handle_modify_memos(memo_id):
                 "message": "Memo deleted",
                 "memos": memos
             }), 200
+        
+@api.route('/user/new', methods=['POST'])
+def handle_add_user():
+    first_name = request.json.get('name', None)
+    email = request.json.get('email', None)
+    password = request.json.get('password', None)
+    new_user = User(first_name = first_name, email = email, password = password)
+    if User.query.filter_by(email = email).first() == None:
+        db.session.add(new_user)
+        db.session.commit()
+
+        user = User.query.filter_by(email = email).first()
+        return jsonify({
+            "message": "user added",
+            "user": user.serialize()
+        }), 200
+    else:
+        return jsonify({
+            'message': "That email is already in use"
+        }), 412
+    
+# @api.route('/user', methods=['POST'])
+# def handle_signin():
+#     email = request.json.get('username', None)
+#     password = request.json.get('password', None)
+#     user = User.query.filter_by(email = email).first()
