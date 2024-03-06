@@ -2,14 +2,19 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
+from flask_bcrypt import Bcrypt
 from api.models import db, User, ToDos, Contacts, Memos
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
 api = Blueprint('api', __name__)
 
 # Allow CORS requests to this API
-CORS(api)
+CORS(api, origins='*')
+
+#Bcrypt to hash passwords stored in DB
+bcrypt = Bcrypt()
 
 @api.route('/users', methods=["GET"])
 def handle_users():
@@ -253,7 +258,10 @@ def handle_add_user():
     first_name = request.json.get('name', None)
     email = request.json.get('email', None)
     password = request.json.get('password', None)
-    new_user = User(first_name = first_name, email = email, password = password)
+    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+
+    new_user = User(first_name = first_name, email = email, password = hashed_password)
+
     if User.query.filter_by(email = email).first() == None:
         db.session.add(new_user)
         db.session.commit()
@@ -268,8 +276,23 @@ def handle_add_user():
             'message': "That email is already in use"
         }), 412
     
-# @api.route('/user', methods=['POST'])
-# def handle_signin():
-#     email = request.json.get('username', None)
-#     password = request.json.get('password', None)
-#     user = User.query.filter_by(email = email).first()
+@api.route('/user', methods=['POST'])
+def handle_signin():
+    email = request.json.get('username', None)
+    password = request.json.get('password', None)
+    user = User.query.filter_by(email = email).first()
+    if user and bcrypt.check_password_hash(user.password, password):
+        access_token = create_access_token(identity = user.id)
+        return jsonify({
+            "message": "User Logged In",
+            "token": access_token,
+            "name": user.first_name
+        }), 200
+    elif user is None:
+        return jsonify({
+            "message": "Bad username or password"
+        }), 401
+    elif email is None or password is None:
+        return jsonify({
+            "message" : "Email and Password required"
+        }), 400
