@@ -19,7 +19,6 @@ export const LogIn = () => {
         setView(false);
     };
     const handleLogIn = () => {
-        console.log(user);
         actions.userSignIn(user)
         navigate("/")
 

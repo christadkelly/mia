@@ -13,7 +13,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 						method: method,
 						headers: {
 							'Content-Type': 'application/json',
-							'Access-Control-Allow-Origin': '*'
+							'Access-Control-Allow-Origin': '*',
+							'Authorization': `Bearer ${sessionStorage.token}`
 						},
 						body: body
 					})
@@ -33,7 +34,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					if (response.status === 200 && app === "signIn"){
 						sessionStorage.setItem('token', data.token);
 						setStore({userName: data.name});
-						console.log(getStore().userName)
 						return true;
 					}
 				} catch (error) {

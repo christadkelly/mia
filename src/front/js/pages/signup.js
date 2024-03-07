@@ -9,7 +9,6 @@ export const SignUp = () => {
     const [user, setUser] = useState({email: '', name: '', password: ''})
 
     const handleSignUp = () => {
-        console.log(user);
         actions.createUser(user);
         navigate('/login')
         

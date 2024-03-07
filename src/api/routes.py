@@ -29,8 +29,9 @@ def handle_users():
     }), 200
 
 @api.route('/todos', methods=['GET'])
+@jwt_required()
 def handle_get_todos():
-    current_user_id = 1
+    current_user_id = get_jwt_identity()
     user = User.query.get(current_user_id)
 
     if user:
@@ -43,8 +44,9 @@ def handle_get_todos():
         }), 200
     
 @api.route('/todos', methods=['POST'])
+@jwt_required()
 def handle_add_todos():
-    current_user_id = 1
+    current_user_id = get_jwt_identity()
     user = User.query.get(current_user_id)
 
     if user:
@@ -63,8 +65,9 @@ def handle_add_todos():
         }), 200
     
 @api.route('/todos/<int:todo_id>', methods=['PUT','DELETE'])
+@jwt_required()
 def handle_modify_todos(todo_id):
-    current_user_id = 1
+    current_user_id = get_jwt_identity()
     user = User.query.get(current_user_id)
     method = request.method
 
@@ -102,8 +105,9 @@ def handle_modify_todos(todo_id):
             }), 200
 
 @api.route('/contacts', methods=['GET'])
+@jwt_required()
 def handle_get_contacts():
-    current_user_id = 1
+    current_user_id = get_jwt_identity()
     user = User.query.get(current_user_id)
 
     if user:
@@ -116,8 +120,9 @@ def handle_get_contacts():
         }), 200
     
 @api.route('/contacts', methods=['POST'])
+@jwt_required()
 def handle_add_contact():
-    current_user_id = 1
+    current_user_id = get_jwt_identity()
     user = User.query.get(current_user_id)
 
     if user:
@@ -137,8 +142,9 @@ def handle_add_contact():
         }), 200
 
 @api.route('/contacts/<int:contact_id>', methods=['PUT', 'DELETE'])
+@jwt_required()
 def handle_modify_contacts(contact_id):
-    current_user_id = 1
+    current_user_id = get_jwt_identity()
     user = User.query.get(current_user_id)
     method = request.method
 
@@ -182,8 +188,9 @@ def handle_modify_contacts(contact_id):
             }), 200
 
 @api.route('/memos', methods=['GET'])
+@jwt_required()
 def handle_get_memos():
-    current_user_id = 1
+    current_user_id = get_jwt_identity()
     user = User.query.get(current_user_id)
 
     if user:
@@ -196,8 +203,9 @@ def handle_get_memos():
         }), 200
 
 @api.route('/memos', methods=['POST'])
+@jwt_required()
 def handle_add_memos():
-    current_user_id = 1
+    current_user_id = get_jwt_identity()
     user = User.query.get(current_user_id)
 
     if user:
@@ -215,6 +223,7 @@ def handle_add_memos():
         }), 200
     
 @api.route('/memos/<int:memo_id>', methods=['PUT', 'DELETE'])
+@jwt_required()
 def handle_modify_memos(memo_id):
     current_user_id = 1
     user = User.query.get(current_user_id)
