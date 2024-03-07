@@ -1,6 +1,6 @@
 
 body {
     background-image: url(https://img.freepik.com/free-photo/wood-board-background_1339-5418.jpg);
-    background-repeat: no-repeat;
+    background-repeat: repeat-y;
     background-size: cover;
 }

@@ -1,13 +1,18 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/todos.css";
 
 export const SignUp = () => {
+    const { store, actions } = useContext(Context);
+    const navigate = useNavigate()
     const [user, setUser] = useState({email: '', name: '', password: ''})
 
     const handleSignUp = () => {
-        console.log(user)
+        console.log(user);
+        actions.createUser(user);
+        navigate('/login')
+        
     }
    
     return(

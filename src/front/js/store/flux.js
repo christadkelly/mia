@@ -4,6 +4,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			userToDos: {},
 			userContacts: {},
 			userMemos: {},
+			userName: ''
 		},
 		actions: {
 			fetchAPI: async (url, method, body, app) => {
@@ -18,17 +19,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 					const data = await response.json();
 					if (response.status === 200 && app === "ToDos"){
-						setStore({userToDos: data.todos})
+						setStore({userToDos: data.todos});
 						return true;
 					};
 					if (response.status === 200 && app === "Contacts"){
-						setStore({userContacts: data.contacts})
+						setStore({userContacts: data.contacts});
 						return true;
 					};
 					if (response.status === 200 && app === "Memos"){
-						setStore({userMemos: data.memos})
+						setStore({userMemos: data.memos});
 						return true;
 					};
+					if (response.status === 200 && app === "signIn"){
+						sessionStorage.setItem('token', data.token);
+						setStore({userName: data.name});
+						return true;
+					}
 				} catch (error) {
 					console.error(`There was a problem with the fetch operation ${error}`)
 				}
@@ -172,8 +178,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					'username': user.username,
 					'password': user.password
 				});
-				const app = undefined;
+				const app = signIn;
 				getActions().fetchAPI(url, method, body, app)
+			},
+			userLogOut: () => {
+				sessionStorage.removeItem('token');
 			}
 		}
 	};
