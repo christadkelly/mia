@@ -16,7 +16,7 @@ export const SignUp = () => {
    
     return(
         <div className="container">
-            <form>
+            <form className="bg-light mt-3 py-2 px-3 border border-secondary-subtle rounded">
                 <div className="mb-3">
                     <label className="form-label" htmlFor="username">Email</label>
                     <input
