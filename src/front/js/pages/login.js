@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/todos.css";
 
 export const LogIn = () => {
+    const { store, actions } = useContext(Context);
+    const navigate = useNavigate();
     const [passwordType, setPasswordType] = useState('password');
     const [view, setView] = useState(false);
     const [user, setUser] = useState({username: '', password: ''})
@@ -18,7 +20,9 @@ export const LogIn = () => {
     };
     const handleLogIn = () => {
         console.log(user);
-        
+        actions.userSignIn(user)
+        navigate("/")
+
     }
    
     return(

@@ -173,12 +173,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			userSignIn: async (user) => {
 				const url = `${process.env.BACKEND_URL}/api/user`;
-				const method = 'GET';
+				const method = 'POST';
 				const body = JSON.stringify({
 					'username': user.username,
 					'password': user.password
 				});
-				const app = signIn;
+				const app = "signIn";
 				getActions().fetchAPI(url, method, body, app)
 			},
 			userLogOut: () => {
