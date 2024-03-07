@@ -4,7 +4,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			userToDos: {},
 			userContacts: {},
 			userMemos: {},
-			userName: ''
+			userName: []
 		},
 		actions: {
 			fetchAPI: async (url, method, body, app) => {
@@ -33,6 +33,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					if (response.status === 200 && app === "signIn"){
 						sessionStorage.setItem('token', data.token);
 						setStore({userName: data.name});
+						console.log(getStore().userName)
 						return true;
 					}
 				} catch (error) {

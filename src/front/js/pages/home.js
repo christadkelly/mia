@@ -1,18 +1,32 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
 import "../../styles/contacts.css";
 
 export const Home = () => {
 	const { store, actions } = useContext(Context);
+	const [loggedIn, setLoggedIn] = useState(false)
 	const navigate = useNavigate();
+
+	useEffect(()=> {
+		if (sessionStorage.token){
+			setLoggedIn(true);
+		} else {
+			setLoggedIn(false);
+		}
+	}, [sessionStorage.token])
 
 	return (
 		<div className="container">
 			<div className="notebook mb-5">
 				<div className="text-center mb-5">
-					<h1 className="m-2">Welcome to miaa</h1>
-					<h4>a memory and information assistant app</h4>
+					{loggedIn ? 
+						<h1 className="m-2">Welcome back, {store.userName}</h1> :
+						<>
+							<h1 className="m-2">Welcome to miaa</h1>
+							<h4>a memory and information assistant app</h4>
+						</>
+					}
 					<h6>Let us help you remember all the things you need to remember with one of our helpful tools. See what we have to offer below!</h6>
 				</div>
 				<div className="row p-1 m-1">
@@ -42,9 +56,11 @@ export const Home = () => {
 						</p>
 						<button className="btn mb-2" type="button" onClick={() => navigate('/memos')}>Go to Memos</button>
 					</div>
-					<div className="d-flex justify-content-center mb-3">
-						<button className="btn btn-secondary" onClick={() => navigate('/signup')}>Sign Up Today!</button>	
-					</div>
+					{!loggedIn && (
+						<div className="d-flex justify-content-center mb-3">
+							<button className="btn btn-secondary" onClick={() => navigate('/signup')}>Sign Up Today!</button>	
+						</div>
+					)}
 				</div>
 			</div>
 		</div>

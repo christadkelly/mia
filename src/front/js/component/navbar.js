@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { Context } from "../store/appContext";
 import { Link, useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
+	const { store, actions } = useContext(Context);
 	const [loggedIn, setLoggedIn] = useState(false);
 	const navigate = useNavigate();
 
@@ -50,7 +52,7 @@ export const Navbar = () => {
 								  </a>
 								  <ul className="dropdown-menu">
 									<li><a className="dropdown-item" href="#">Account Settings</a></li>
-									<li><a className="dropdown-item" href="#">Logout</a></li>
+									<li className="dropdown-item" onClick={handleLogout}>Logout</li>
 								  </ul>
 							</li>
 						)}
