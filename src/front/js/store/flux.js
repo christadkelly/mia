@@ -114,23 +114,39 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			fetchUserContacts: async () => {
-				const url = `${process.env.BACKEND_URL}/api/contacts`;
-				const method = 'GET';
-				const body = undefined;
-				const app = "Contacts";
-				getActions().fetchAPI(url, method, body, app)
+				if(getStore().loggedIn == true){
+					const url = `${process.env.BACKEND_URL}/api/contacts`;
+					const method = 'GET';
+					const body = undefined;
+					const app = "Contacts";
+					getActions().fetchAPI(url, method, body, app)
+				}
 			},
 			addUserContact: async (contact) => {
-				const url = `${process.env.BACKEND_URL}/api/contacts`;
-				const method = 'POST';
-				const body = JSON.stringify({
-					'name': contact.name,
-					'phone': contact.phone,
-					'email': contact.email,
-					'address': contact.address
-				});
-				const app = "Contacts";
-				getActions().fetchAPI(url, method, body, app)
+				if(getStore().loggedIn == true){
+					const url = `${process.env.BACKEND_URL}/api/contacts`;
+					const method = 'POST';
+					const body = JSON.stringify({
+						'name': contact.name,
+						'phone': contact.phone,
+						'email': contact.email,
+						'address': contact.address
+					});
+					const app = "Contacts";
+					getActions().fetchAPI(url, method, body, app)
+				} else {
+					const currentContacts = getStore().userContacts;
+					const newContact = {
+						name: contact.name,
+						phone: contact.phone,
+						email: contact.email,
+						address: contact.address,
+						id: currentContacts.length
+					};
+					let newContactList = currentContacts.concat(newContact);
+					setStore({ userContacts: newContactList});
+					console.log(getStore().userContacts)
+				}
 			},
 			editUserContact: async (contact, contactID) => {
 				const url = `${process.env.BACKEND_URL}/api/contacts/${contactID}`;
@@ -145,11 +161,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().fetchAPI(url, method, body, app)
 			},
 			deleteUserContact: async (contactID) => {
-				const url = `${process.env.BACKEND_URL}/api/contacts/${contactID}`;
-				const method = 'DELETE';
-				const body = undefined;
-				const app = "Contacts";
-				getActions().fetchAPI(url, method, body, app)
+				if(getStore().loggedIn == true){
+					const url = `${process.env.BACKEND_URL}/api/contacts/${contactID}`;
+					const method = 'DELETE';
+					const body = undefined;
+					const app = "Contacts";
+					getActions().fetchAPI(url, method, body, app)
+				} else {
+					let newContactList = getStore().userContacts.filter((item) => item.id != contactID);
+					setStore({ userContacts: newContactList})
+					console.log(getStore().userContacts)
+				}
 			},
 			fetchUserMemos: async () => {
 				const url = `${process.env.BACKEND_URL}/api/memos`;

@@ -6,6 +6,7 @@ export const Contact = (props) => {
     const {store, actions} = useContext(Context);
     const nagivate = useNavigate();
     const contact = props.contact;
+    const loggedIn = store.loggedIn;
 
     const imageUrl = 'https://cdn.icon-icons.com/icons2/1509/PNG/512/contactnew_104150.png'
 
@@ -28,9 +29,13 @@ export const Contact = (props) => {
                 <div className='m-1'><i className="fa-solid fa-location-dot me-2 icon"></i>Address: {contact.address}</div>
             </div>
             <div className='col-md-2 d-flex justify-content-center'>
+                {loggedIn ? 
                 <button className='btn' onClick={nagivateEdit}>
                     <i className="fa-solid fa-pencil icon"></i>
-                </button>
+                </button> :
+                <button className='btn' disabled>
+                    <i className="fa-solid fa-pencil icon"></i>
+                </button>}
                 <button className='btn' data-bs-target={`#modal${contact.id}`} data-bs-toggle="modal">
                     <i className="fa-solid fa-trash icon"></i>
                 </button>
