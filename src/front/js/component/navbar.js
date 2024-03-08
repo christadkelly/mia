@@ -1,7 +1,26 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState, useContext } from "react";
+import { Context } from "../store/appContext";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
+	const { store, actions } = useContext(Context);
+	const [loggedIn, setLoggedIn] = useState(false);
+	const navigate = useNavigate();
+
+	useEffect(()=> {
+		if (sessionStorage.token){
+			setLoggedIn(true);
+		} else {
+			setLoggedIn(false);
+		}
+	}, [sessionStorage.token])
+
+	const handleLogout = () => {
+		actions.userLogOut();
+		setLoggedIn(false);
+		navigate('/');
+	}
+
 	return (
 		<nav className="navbar navbar-expand-lg navbar-light bg-light border border-secondary-subtle border-3">
 			<div className="container-fluid">
@@ -25,18 +44,26 @@ export const Navbar = () => {
 							<i className="fa-solid fa-thumbtack"></i>
 							<Link className="nav-link ms-2" to={"/memos"}>Memos</Link>
 						</li>
-						<li className="nav-item dropdown d-flex">
-							<i className="fa-solid fa-thumbtack"></i>
-    	    				<a className="nav-link dropdown-toggle ms-2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            					Settings
-          					</a>
-          					<ul className="dropdown-menu">
-            					<li><a className="dropdown-item" href="#">Account Settings</a></li>
-            					<li><a className="dropdown-item" href="#">Logout</a></li>
-          					</ul>
-        				</li>
+						{loggedIn && ( 
+							<li className="nav-item dropdown d-flex">
+								<i className="fa-solid fa-thumbtack"></i>
+								<a className="nav-link dropdown-toggle ms-2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+									Settings
+								  </a>
+								  <ul className="dropdown-menu">
+									<li><a className="dropdown-item" href="#">Account Settings</a></li>
+									<li className="dropdown-item" onClick={handleLogout}>Logout</li>
+								  </ul>
+							</li>
+						)}
       				</ul>
     			</div>
+				{!loggedIn && (
+					<div className="justify-content-end">
+						<button className="btn" onClick={() => navigate('/signup')}>Sign Up</button>
+						<button className="btn" onClick={() => navigate('/login')}>Log In</button>
+					</div>
+				)}
 			</div>
 		</nav>
 	);
