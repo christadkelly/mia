@@ -6,6 +6,7 @@ export const Memo = (props) => {
     const {store, actions} = useContext(Context);
     const nagivate = useNavigate();
     const memo = props.memo;
+    const loggedIn = store.loggedIn;
 
     const [editing, setEditing] = useState(false)
     const [selectedMemo, setSelectedMemo] = useState({id: memo.id, title: memo.title, body: memo.memo_body});
@@ -36,6 +37,7 @@ export const Memo = (props) => {
                         ></input> : 
                     <h5 className='m-1'>{memo.title}</h5>}
                 </div>
+                {loggedIn ? 
                 <div className='col-5 d-flex justify-content-end'>
                     {editing ? 
                     <button className='btn' onClick={saveMemo}>
@@ -47,7 +49,12 @@ export const Memo = (props) => {
                     <button className='btn' onClick={() => actions.deleteUserMemo(memo.id)}>
                         <i className="fa-solid fa-trash icon"></i>
                     </button>
-                </div>
+                </div> :
+                <div className='col-5 d-flex justify-content-end'>
+                    <button className='btn' onClick={() => actions.deleteUserMemo(memo.id)}>
+                        <i className="fa-solid fa-trash icon"></i>
+                    </button>
+                </div>}
             </div>
             {editing ?
             <textarea

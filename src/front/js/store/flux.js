@@ -5,7 +5,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			userContacts: [],
 			userMemos: [],
 			userName: [],
-			loggedIn: false
+			loggedIn: false,
+			idCounter: 0
 		},
 		actions: {
 			fetchAPI: async (url, method, body, app) => {
@@ -174,21 +175,35 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			fetchUserMemos: async () => {
-				const url = `${process.env.BACKEND_URL}/api/memos`;
-				const method = 'GET';
-				const body = undefined;
-				const app = "Memos";
-				getActions().fetchAPI(url, method, body, app)
+				if(getStore().loggedIn == true){
+					const url = `${process.env.BACKEND_URL}/api/memos`;
+					const method = 'GET';
+					const body = undefined;
+					const app = "Memos";
+					getActions().fetchAPI(url, method, body, app)
+				}
 			},
 			addUserMemo: async (memo) => {
-				const url = `${process.env.BACKEND_URL}/api/memos`;
-				const method = 'POST';
-				const body = JSON.stringify({
-					'title': memo.title,
-					'memo_body': memo.body
-				});
-				const app = "Memos";
-				getActions().fetchAPI(url, method, body, app)
+				if(getStore().loggedIn == true){
+					const url = `${process.env.BACKEND_URL}/api/memos`;
+					const method = 'POST';
+					const body = JSON.stringify({
+						'title': memo.title,
+						'memo_body': memo.body
+					});
+					const app = "Memos";
+					getActions().fetchAPI(url, method, body, app)
+				} else {
+					const currentMemos = getStore().userMemos;
+					const newMemo = {
+						title: memo.title,
+						memo_body: memo.body,
+						id: currentMemos.length
+					};
+					const newMemoList = currentMemos.concat(newMemo);
+					setStore({ userMemos: newMemoList});
+					console.log(getStore().userMemos)
+				}
 			},
 			editUserMemo: async (memo) => {
 				const url = `${process.env.BACKEND_URL}/api/memos/${memo.id}`;
@@ -201,11 +216,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().fetchAPI(url, method, body, app)
 			},
 			deleteUserMemo: async (memoID) => {
-				const url = `${process.env.BACKEND_URL}/api/memos/${memoID}`;
-				const method = 'DELETE';
-				const body = undefined;
-				const app = "Memos";
-				getActions().fetchAPI(url, method, body, app)
+				if(getStore().loggedIn == true){
+					const url = `${process.env.BACKEND_URL}/api/memos/${memoID}`;
+					const method = 'DELETE';
+					const body = undefined;
+					const app = "Memos";
+					getActions().fetchAPI(url, method, body, app)
+				} else {
+					let newMemoList = getStore().userMemos.filter((item) => item.id != memoID);
+					setStore({ userMemos: newMemoList})
+					console.log(getStore().userMemos)
+				}
 			},
 			createUser: async (user) => {
 				const url = `${process.env.BACKEND_URL}/api/user/new`;
