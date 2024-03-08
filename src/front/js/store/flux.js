@@ -1,10 +1,11 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			userToDos: {},
-			userContacts: {},
-			userMemos: {},
-			userName: []
+			userToDos: [],
+			userContacts: [],
+			userMemos: [],
+			userName: [],
+			loggedIn: false
 		},
 		actions: {
 			fetchAPI: async (url, method, body, app) => {
@@ -21,6 +22,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const data = await response.json();
 					if (response.status === 200 && app === "ToDos"){
 						setStore({userToDos: data.todos});
+						console.log(getStore().userToDos)
 						return true;
 					};
 					if (response.status === 200 && app === "Contacts"){
@@ -34,6 +36,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					if (response.status === 200 && app === "signIn"){
 						sessionStorage.setItem('token', data.token);
 						setStore({userName: data.name});
+						setStore({loggedIn: true});
+						console.log(getStore().loggedIn)
 						return true;
 					}
 				} catch (error) {
@@ -41,28 +45,48 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			fetchUserToDos: async () => {
-				const url = `${process.env.BACKEND_URL}/api/todos`;
-				const method = 'GET';
-				const body = undefined;
-				const app = "ToDos"
-				getActions().fetchAPI(url, method, body, app)
+				if(getStore().loggedIn == true){
+					const url = `${process.env.BACKEND_URL}/api/todos`;
+					const method = 'GET';
+					const body = undefined;
+					const app = "ToDos"
+					getActions().fetchAPI(url, method, body, app)
+				}
 			},
 			addUserToDos: async (task) =>{
-				const url = `${process.env.BACKEND_URL}/api/todos`;
-				const method = 'POST';
-				const body = JSON.stringify({
-					'task': task,
-					'status': 'Not Started'
-				});
-				const app = "ToDos"
-				getActions().fetchAPI(url, method, body, app)
+				if(getStore().loggedIn == true){
+					const url = `${process.env.BACKEND_URL}/api/todos`;
+					const method = 'POST';
+					const body = JSON.stringify({
+						'task': task,
+						'status': 'Not Started'
+					});
+					const app = "ToDos"
+					getActions().fetchAPI(url, method, body, app)
+				} else {
+					const currentToDos = getStore().userToDos;
+					const newToDo = {
+						task: task,
+						status: 'Not Started',
+						id: currentToDos.length
+					};
+					let newToDoList = currentToDos.concat(newToDo);
+					setStore({ userToDos: newToDoList});
+					console.log(getStore().userToDos)
+				}
 			},
 			deleteUserToDos: async(todoID) =>{
-				const url = `${process.env.BACKEND_URL}/api/todos/${todoID}`;
-				const method = 'DELETE';
-				const body = undefined;
-				const app = "ToDos"
-				getActions().fetchAPI(url, method, body, app)
+				if(getStore().loggedIn == true){
+					const url = `${process.env.BACKEND_URL}/api/todos/${todoID}`;
+					const method = 'DELETE';
+					const body = undefined;
+					const app = "ToDos"
+					getActions().fetchAPI(url, method, body, app)
+				} else {
+					let newToDoList = getStore().userToDos.filter((item) => item.id != todoID);
+					setStore({ userToDos: newToDoList})
+					console.log(getStore().userToDos)
+				}
 			},
 			editToDoStatus: async (todoID, status) => {
 				const opts = {
