@@ -69,11 +69,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const newToDo = {
 						task: task,
 						status: 'Not Started',
-						id: currentToDos.length
+						id: getStore().idCounter
 					};
 					let newToDoList = currentToDos.concat(newToDo);
 					setStore({ userToDos: newToDoList});
-					console.log(getStore().userToDos)
+					setStore({ idCounter: getStore().idCounter + 1});
 				}
 			},
 			deleteUserToDos: async(todoID) =>{
@@ -142,11 +142,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 						phone: contact.phone,
 						email: contact.email,
 						address: contact.address,
-						id: currentContacts.length
+						id: getStore().idCounter
 					};
 					let newContactList = currentContacts.concat(newContact);
 					setStore({ userContacts: newContactList});
-					console.log(getStore().userContacts)
+					setStore({ idCounter: getStore().idCounter + 1});
 				}
 			},
 			editUserContact: async (contact, contactID) => {
@@ -198,11 +198,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const newMemo = {
 						title: memo.title,
 						memo_body: memo.body,
-						id: currentMemos.length
+						id: getStore().idCounter
 					};
 					const newMemoList = currentMemos.concat(newMemo);
 					setStore({ userMemos: newMemoList});
-					console.log(getStore().userMemos)
+					setStore({ idCounter: getStore().idCounter + 1});
 				}
 			},
 			editUserMemo: async (memo) => {
@@ -237,7 +237,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 					'password': user.password
 				});
 				const app = undefined;
-				getActions().fetchAPI(url, method, body, app)
+				getActions().fetchAPI(url, method, body, app);
+				// if (getStore().userToDos.length > 0){
+				// 	const userToDos = getStore().userToDos;
+				// 	for (task in userToDos) {
+
+				// 	}
+				// }
 			},
 			userSignIn: async (user) => {
 				const url = `${process.env.BACKEND_URL}/api/user`;
