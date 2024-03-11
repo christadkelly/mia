@@ -6,7 +6,7 @@ export const Contact = (props) => {
     const {store, actions} = useContext(Context);
     const nagivate = useNavigate();
     const contact = props.contact;
-    const loggedIn = store.loggedIn;
+    
 
     const imageUrl = 'https://cdn.icon-icons.com/icons2/1509/PNG/512/contactnew_104150.png'
 

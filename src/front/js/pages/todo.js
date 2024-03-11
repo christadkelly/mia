@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
+import { NoAccountWarning } from "../component/noAccountWarning";
 import "../../styles/todos.css";
 
 export const ToDo = () => {
@@ -41,6 +42,7 @@ export const ToDo = () => {
                             onKeyPress={(e) => createToDo(e)}>
                         </input>
                     </div>
+                    {loggedIn ? <></> : <NoAccountWarning />}
                     {store.userToDos && store.userToDos.length > 0 && store.userToDos.map((task, key) => 
                         (<div key={key} className="row todo pt-2">
                             <div className="col-lg-8 col-md-7 col-12">
