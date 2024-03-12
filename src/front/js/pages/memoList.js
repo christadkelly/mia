@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { Memo } from "../component/memo";
+import { NoAccountWarning } from "../component/noAccountWarning";
 import "../../styles/memos.css";
 
 export const MemoList = () => {
     const { store, actions } = useContext(Context);
     const [memoInfo, setMemoInfo] = useState({title: '', body: ''});
+    const loggedIn = store.loggedIn;
     
     useEffect(()=>{
         actions.fetchUserMemos()
@@ -16,18 +17,10 @@ export const MemoList = () => {
         actions.addUserMemo(memoInfo);
         setMemoInfo({title: '', body: ''})
     }
-    // const [display, setDisplay] = useState('notdisplayed');
-    // const showButton = e => {
-    //     e.preventDefault();
-    //     setDisplay('displayed')
-    // };
-    // const hideButton = e => {
-    //     e.preventDefault();
-    //     setDisplay('notdisplayed')
-    // }
 
     return(
         <div className="container-fluid">
+            {loggedIn ? <></> : <NoAccountWarning />}
             <div className="d-flex flex-wrap justify-content-center mt-3">
                 <div className="memo col-lg-3 col-md-4 col-sm-6 col-12 m-1 p-1">
                     <input
